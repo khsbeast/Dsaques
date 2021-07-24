@@ -1,41 +1,32 @@
-/* abbabaab aaaaaaa */ 
-
-#include<bits/stdc++.h>
-
+#include <bits/stdc++.h>
 using namespace std;
-int solve(string s,int k,char ch)
+void premutate(int a[],int n)
 {
-    int i =0;
-    int j = 0;
-    int kount=0;
-    int maxx = 0;
-    while (j<s.length())
+    bool done = true;
+    for(int i = n-2;i >= 0;i--)
     {
-        if(s[j]==ch)
+        if(a[i]<a[i+1])
         {
-            kount++;
-            if(kount==k+1)
-            {
-                maxx = max(maxx,j-i);
-                while(i < s.length() && s[i]!=ch)
-                i++;
-                i++;
-                kount--;
-            }
+            done=false;
+            reverse(a+i+1,a+n);
+            auto lower = lower_bound(a+i+1,a+n,a[i]);
+            int index = lower-a;
+            swap(a[i],a[index]);
+            break;
         }
-        j++;
     }
-
-    return max(maxx,j-i);
+    if(done)
+    reverse(a,a+n);
 }
-int main()
-{
-    int k;
-    cin >> k;
-    string s;
-    cin >> s;
-    int maxx1= solve(s,k,'b');
-    int maxx2= solve(s,k,'a');
-    cout << max(maxx1,maxx2);
-    return 0;
+int main() {
+        int n;
+        cin >> n;
+        int a[n];
+        for(int i = 0;i<n;i++)
+        {
+            cin >>a[i];
+        }
+        premutate(a,n);
+        for(int i = 0;i < n;i++)
+        cout << a[i] << ' ';
 }
